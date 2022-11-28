@@ -1,4 +1,4 @@
-package Clients;
+package clients;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
