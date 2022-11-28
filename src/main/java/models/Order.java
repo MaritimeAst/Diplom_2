@@ -1,27 +1,20 @@
 package models;
 
+import java.util.List;
+
 public class Order {
-    public String firstIngredient;
-    public String secondIngredient;
 
-    public Order(String firstIngredient, String secondIngredient) {
-        this.firstIngredient = firstIngredient;
-        this.secondIngredient = secondIngredient;
+    public String ingredients;
+
+    public Order(String ingredients) {
+        this.ingredients = ingredients;
     }
 
-    public String getFirstIngredient() {
-        return firstIngredient;
+    public String getIngredients() {
+        return ingredients;
     }
 
-    public void setFirstIngredient(String firstIngredient) {
-        this.firstIngredient = firstIngredient;
-    }
-
-    public String getSecondIngredient() {
-        return secondIngredient;
-    }
-
-    public void setSecondIngredient(String secondIngredient) {
-        this.secondIngredient = secondIngredient;
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
     }
 }
