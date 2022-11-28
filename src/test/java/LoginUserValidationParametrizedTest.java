@@ -23,6 +23,7 @@ public class LoginUserValidationParametrizedTest {
     private int statusCode;
     private String message;
     private String accessToken;
+    private static String expectedMessage = "email or password are incorrect";
 
     public LoginUserValidationParametrizedTest(Credentials credentials, int statusCode, String message) {
         this.credentials = credentials;
@@ -34,10 +35,10 @@ public class LoginUserValidationParametrizedTest {
     public static Object[][] getTestData() {
 
         return new Object[][]{
-                {Credentials.from(UserGenerator.getWithLoginIncorrect()), SC_UNAUTHORIZED, "email or password are incorrect"},
-                {Credentials.from(UserGenerator.getWithPasswordIncorrect()), SC_UNAUTHORIZED, "email or password are incorrect"},
-                {Credentials.from(UserGenerator.getWithoutLogin()), SC_UNAUTHORIZED, "email or password are incorrect"},
-                {Credentials.from(UserGenerator.getWithoutPassword()), SC_UNAUTHORIZED, "email or password are incorrect"}
+                {Credentials.from(UserGenerator.getUserChangeEmail()), SC_UNAUTHORIZED, expectedMessage},
+                {Credentials.from(UserGenerator.getWithPasswordIncorrect()), SC_UNAUTHORIZED, expectedMessage},
+                {Credentials.from(UserGenerator.getWithoutLogin()), SC_UNAUTHORIZED, expectedMessage},
+                {Credentials.from(UserGenerator.getWithoutPassword()), SC_UNAUTHORIZED, expectedMessage}
         };
     }
 
