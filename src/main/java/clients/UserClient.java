@@ -18,7 +18,6 @@ public class UserClient extends Client{
     public ValidatableResponse create(User user) {
         return given()
                 .spec(getSpec())
-                .log().all()
                 .body(user)
                 .when()
                 .post(CREATE_USER_PATH)
@@ -29,7 +28,6 @@ public class UserClient extends Client{
     public ValidatableResponse login(Credentials credentials){
         return given()
                 .spec(getSpec())
-                .log().all()
                 .body(credentials)
                 .when()
                 .post(LOGIN_USER_PATH)
@@ -40,7 +38,6 @@ public class UserClient extends Client{
     public ValidatableResponse userDataChange(String accessToken, User user) {
         return given()
                 .spec(getSpec())
-                .log().all()
                 .header("Authorization", accessToken)
                 .body(user)
                 .when()
@@ -53,7 +50,6 @@ public class UserClient extends Client{
     public ValidatableResponse delete(String accessToken) {
         return given()
                 .spec(getSpec())
-                .log().all()
                 .header("Authorization", accessToken)
                 .when()
                 .delete(DELETE_USER_PATH)

@@ -4,10 +4,11 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import models.User;
+import org.hamcrest.MatcherAssert;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertTrue;
 
 public class CreateUserTest {
@@ -17,31 +18,24 @@ public class CreateUserTest {
     private String accessToken;
     private String refreshToken;
 
-    @Before
-    public void setUp() {
-        userClient = new UserClient();
-        user = UserGenerator.getDefault();
-    }
-
     @Test
     @DisplayName("Создание пользователя. Позитивный тест")
     @Description("Проверка, что пользователя можно создать")
     public void userCanBeCreated() {
 
-        User user = UserGenerator.getDefault();
-        UserClient userClient = new UserClient();
+        userClient = new UserClient();
+        user = UserGenerator.getDefault();
 
-        ValidatableResponse responseCreate = userClient.create(user);                 // В переменной сохраняется результат вызова метода создания пользователя
+        ValidatableResponse responseCreateUser = userClient.create(user);                 // В переменной сохраняется результат вызова метода создания пользователя
 
-        accessToken = responseCreate.extract().path("accessToken");
-        System.out.println(accessToken);
-        refreshToken = responseCreate.extract().path("refreshToken");
-        System.out.println(refreshToken);
-        boolean isUserCreated = responseCreate.extract().path("success");
-        System.out.println(isUserCreated);
+        accessToken = responseCreateUser.extract().path("accessToken");
+        refreshToken = responseCreateUser.extract().path("refreshToken");
 
+        boolean isUserCreated = responseCreateUser.extract().path("success");
+        String user = responseCreateUser.extract().path("user.email");
 
         assertTrue("Проверка возможности создания пользователя", isUserCreated);
+        MatcherAssert.assertThat("Проверка возможности создания пользователя, в ответе должно содержаться поле user", user, notNullValue());
     }
 
     @After

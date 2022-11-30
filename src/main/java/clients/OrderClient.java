@@ -13,7 +13,6 @@ public class OrderClient extends Client  {
     public ValidatableResponse postOrderAuth(Order order, String accessToken) {
         return given()
                 .spec(getSpec())
-                .log().all()
                 .header("Authorization", accessToken)
                 .body(order)
                 .when()
@@ -25,7 +24,6 @@ public class OrderClient extends Client  {
     public ValidatableResponse postOrderNoAuth(Order order) {
         return given()
                 .spec(getSpec())
-                .log().all()
                 .body(order)
                 .when()
                 .post(ORDER_PATH)
@@ -36,7 +34,6 @@ public class OrderClient extends Client  {
     public ValidatableResponse getOrdersAuth(String accessToken) {
         return given()
                 .spec(getSpec())
-                .log().all()
                 .header("Authorization", accessToken)
                 .when()
                 .get(ORDER_PATH)
@@ -47,7 +44,6 @@ public class OrderClient extends Client  {
     public ValidatableResponse getOrdersNoAuth() {
         return given()
                 .spec(getSpec())
-                .log().all()
                 .when()
                 .get(ORDER_PATH)
                 .then();

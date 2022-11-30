@@ -14,7 +14,7 @@ public class OrderGenerator {
 
     public static Order getOrderWithoutIngredients() {
 
-        return new Order(null);
+        return new Order(" ");
     }
 
     public static Order getOrderWithWrongIngredients() {

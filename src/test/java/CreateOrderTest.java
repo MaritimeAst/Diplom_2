@@ -9,7 +9,6 @@ import models.Order;
 import models.User;
 import org.hamcrest.MatcherAssert;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.apache.http.HttpStatus.SC_OK;
@@ -20,24 +19,19 @@ public class CreateOrderTest {
 
     private OrderClient orderClient;
     private Order order;
-    //private int number;
-    //private int statusCode;
     private UserClient userClient;
     private User user;
     private String accessToken;
-
-    @Before
-    public void setUp() {
-        userClient = new UserClient();
-        user = UserGenerator.getDefault();
-        ValidatableResponse responseCreate = userClient.create(user);
-        accessToken = responseCreate.extract().path("accessToken"); //Получение токена из запроса по созданию пользователя, для дальнейшего удаления
-    }
 
     @Test
     @DisplayName("Создание заказа. Позитивный сценарий")
     @Description("Проверка возможности создания заказа с авторизацией")
     public void createOrderWithAuthAvailable() {
+
+        userClient = new UserClient();
+        user = UserGenerator.getDefault();
+        ValidatableResponse responseCreate = userClient.create(user);
+        accessToken = responseCreate.extract().path("accessToken"); //Получение токена из запроса по созданию пользователя, для дальнейшего удаления
 
         OrderClient orderClient = new OrderClient();
         order = OrderGenerator.getOrderDefault();
@@ -52,6 +46,11 @@ public class CreateOrderTest {
     @DisplayName("Создание заказа. Позитивный сценарий")
     @Description("Проверка возможности создания заказа без авторизации")
     public void createOrderNoAuthAvailable() {
+
+        userClient = new UserClient();
+        user = UserGenerator.getDefault();
+        ValidatableResponse responseCreate = userClient.create(user);
+        accessToken = responseCreate.extract().path("accessToken"); //Получение токена из запроса по созданию пользователя, для дальнейшего удаления
 
         OrderClient orderClient = new OrderClient();
         order = OrderGenerator.getOrderDefault();

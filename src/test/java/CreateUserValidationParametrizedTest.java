@@ -4,7 +4,6 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import models.User;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -36,17 +35,12 @@ public class CreateUserValidationParametrizedTest {
         };
     }
 
-    @Before
-    public void setUp() {
-        userClient = new UserClient();
-    }
-
     @Test
     @DisplayName("Валидация метода создания пользователя. Негативный сценарий")
     @Description("Проверка, что если не указать логин, пароль или имя, создание пользователя завершается ошибкой")
     public void courierCreationWithoutRequiredFieldsThenError() {
 
-        UserClient userClient = new UserClient();
+        userClient = new UserClient();
         ValidatableResponse responseCreate = userClient.create(user);                 // В переменной сохраняется результат вызова метода создания курьера
 
         String actualMessage = responseCreate.extract().path("message");
