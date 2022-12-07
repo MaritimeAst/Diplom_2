@@ -48,5 +48,10 @@ public class GetOrdersListValidationTest {
     @After
     public void cleanUp() {
         userClient.delete(accessToken);
+        try {                                           //Задержка добавлена для пердотвращения появления ошибки 429
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

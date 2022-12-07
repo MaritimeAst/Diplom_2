@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
@@ -18,6 +19,7 @@ public class CreateUserValidationParametrizedTest {
     private User user;
     private int statusCode;
     private String message;
+    private String accessToken;
 
     public CreateUserValidationParametrizedTest(User user, int statusCode, String message) {
         this.user = user;
@@ -41,12 +43,24 @@ public class CreateUserValidationParametrizedTest {
     public void courierCreationWithoutRequiredFieldsThenError() {
 
         userClient = new UserClient();
-        ValidatableResponse responseCreate = userClient.create(user);                 // В переменной сохраняется результат вызова метода создания курьера
+        ValidatableResponse responseCreateUser = userClient.create(user);                 // В переменной сохраняется результат вызова метода создания пользователя
 
-        String actualMessage = responseCreate.extract().path("message");
-        int actualStatusCode = responseCreate.extract().statusCode();
+        String actualMessage = responseCreateUser.extract().path("message");
+        int actualStatusCode = responseCreateUser.extract().statusCode();
+
+        if (actualStatusCode == SC_OK) {                                                  // Если пользователь будет создан (по причине какого-либо бага), то будет выполнено его удаление. Тест выдаст ошибку
+            accessToken = responseCreateUser.extract().path("accessToken");
+            userClient.delete(accessToken);
+        }
 
         assertEquals("Проверка корректности возвращаемого кода ошибки, при создании курьера без обязательных полей", statusCode, actualStatusCode);
         assertEquals("Проверка корректности возвращаемого текста ошибки, при создании курьера без обязательных полей", message, actualMessage);
+
+        try {                                           //Задержка добавлена для пердотвращения появления ошибки 429
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }

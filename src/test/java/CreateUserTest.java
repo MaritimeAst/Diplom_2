@@ -16,7 +16,6 @@ public class CreateUserTest {
     private UserClient userClient;
     private User user;
     private String accessToken;
-    private String refreshToken;
 
     @Test
     @DisplayName("Создание пользователя. Позитивный тест")
@@ -29,7 +28,6 @@ public class CreateUserTest {
         ValidatableResponse responseCreateUser = userClient.create(user);                 // В переменной сохраняется результат вызова метода создания пользователя
 
         accessToken = responseCreateUser.extract().path("accessToken");
-        refreshToken = responseCreateUser.extract().path("refreshToken");
 
         boolean isUserCreated = responseCreateUser.extract().path("success");
         String user = responseCreateUser.extract().path("user.email");
@@ -41,5 +39,10 @@ public class CreateUserTest {
     @After
     public void cleanUp() {
         userClient.delete(accessToken);
+        try {                                           //Задержка добавлена для пердотвращения появления ошибки 429
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

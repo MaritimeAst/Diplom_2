@@ -18,31 +18,37 @@ public class UserClient extends Client{
     public ValidatableResponse create(User user) {
         return given()
                 .spec(getSpec())
+                .log().all()
                 .body(user)
                 .when()
                 .post(CREATE_USER_PATH)
-                .then();
+                .then()
+                .log().all();
     }
 
     @Step("Логин с кредами пользователя")
     public ValidatableResponse login(Credentials credentials){
         return given()
                 .spec(getSpec())
+                .log().all()
                 .body(credentials)
                 .when()
                 .post(LOGIN_USER_PATH)
-                .then();
+                .then()
+                .log().all();
     }
 
     @Step("Изменение пользователя")
     public ValidatableResponse userDataChange(String accessToken, User user) {
         return given()
                 .spec(getSpec())
+                .log().all()
                 .header("Authorization", accessToken)
                 .body(user)
                 .when()
                 .patch(DELETE_USER_PATH)
-                .then();
+                .then()
+                .log().all();
     }
 
 
@@ -50,10 +56,12 @@ public class UserClient extends Client{
     public ValidatableResponse delete(String accessToken) {
         return given()
                 .spec(getSpec())
+                .log().all()
                 .header("Authorization", accessToken)
                 .when()
                 .delete(DELETE_USER_PATH)
                 .then()
+                .log().all()
                 .statusCode(202);
     }
 }

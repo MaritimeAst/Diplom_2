@@ -15,7 +15,6 @@ public class CreateUserValidationTest {
     private UserClient userClient;
     private User user;
     private String accessToken;
-    private String refreshToken;
 
     private int statusCode = SC_FORBIDDEN;
     private String message = "User already exists";
@@ -44,5 +43,10 @@ public class CreateUserValidationTest {
     @After
     public void cleanUp() {
         userClient.delete(accessToken);
+        try {                                           //Задержка добавлена для пердотвращения появления ошибки 429
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

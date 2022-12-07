@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Order {
 
-    public String ingredients;
+    private String ingredients;
 
     public Order(String ingredients) {
         this.ingredients = ingredients;
